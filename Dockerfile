@@ -2,6 +2,7 @@ FROM alpine:3.5
 
 RUN apk add --update --no-cache \
     curl \
+    jq \
     ca-certificates \
     bash \
     python \
