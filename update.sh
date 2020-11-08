@@ -1,17 +1,17 @@
 #!/bin/bash
 
 if [ -z ${PLUGIN_CLUSTER} ]; then
-  echo "missing cluster"
+  echo "missing required parameter cluster"
   exit 1
 fi
 
-if [ -z ${PLUGIN_IMAGE_NAME} ]; then
-  echo "missing image"
+if [ -z ${PLUGIN_IMAGE_NAME} ] && [ -z ${PLUGIN_IMAGE_TAG} ]; then
+  echo "either image name or image tag parameter is required"
   exit 1
 fi
 
 if [ -z ${PLUGIN_SERVICE} ]; then
-  echo "missing Service"
+  echo "missing required parameter service"
   exit 1
 fi
 
@@ -39,4 +39,9 @@ if [ ! -z ${PLUGIN_AWS_SECRET_ACCESS_KEY} ]; then
   AWS_SECRET_ACCESS_KEY=$PLUGIN_AWS_SECRET_ACCESS_KEY
 fi
 
-ecs-deploy --region ${PLUGIN_AWS_REGION} --cluster ${PLUGIN_CLUSTER} --image ${PLUGIN_IMAGE_NAME} --service-name ${PLUGIN_SERVICE} --timeout ${PLUGIN_TIMEOUT} --min ${PLUGIN_MIN} --max ${PLUGIN_MAX}
+if [ ! -z ${PLUGIN_IMAGE_TAG} ]; then
+  # ecs-deploy base container puts the script in the fs root :(
+  /ecs-deploy --region ${PLUGIN_AWS_REGION} --cluster ${PLUGIN_CLUSTER} --tag-only ${PLUGIN_IMAGE_TAG} --image ignore --service-name ${PLUGIN_SERVICE} --timeout ${PLUGIN_TIMEOUT} --min ${PLUGIN_MIN} --max ${PLUGIN_MAX}
+else
+  /ecs-deploy --region ${PLUGIN_AWS_REGION} --cluster ${PLUGIN_CLUSTER} --image ${PLUGIN_IMAGE_NAME} --service-name ${PLUGIN_SERVICE} --timeout ${PLUGIN_TIMEOUT} --min ${PLUGIN_MIN} --max ${PLUGIN_MAX}
+fi

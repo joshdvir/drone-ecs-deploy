@@ -33,6 +33,20 @@ Another example with optional variables
       aws_secret_access_key: vdfklmnopenxasweiqokdvdfjeqwuioenajks # optional, better to use as secret
 ```
 
+Alternatively, the `image_tag` parameter can be used to deploy a specific container image version, instead of latest
+
+```yaml
+  pipeline:
+    deploy:
+      image: joshdvir/drone-ecs-deploy
+      cluster: my-cluster
+      service: my-service
+      image_tag: v123
+      aws_region: us-east-1
+```
+
+Optional variables can be applied in the same way as the `image:latest` example, however `image_name` is not required.
+
 ## Optional secrets
 
 * AWS_ACCESS_KEY_ID
