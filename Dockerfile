@@ -1,4 +1,4 @@
-FROM silintl/ecs-deploy:3.9.1
+FROM silintl/ecs-deploy:3.10.11
 
 COPY update.sh /bin/
 
