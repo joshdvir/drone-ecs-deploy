@@ -31,6 +31,7 @@ Another example with optional variables
       min: "100" # defaults to 100
       aws_access_key_id: ewijdfmvbasciosvdfkl # optional, better to use as secret
       aws_secret_access_key: vdfklmnopenxasweiqokdvdfjeqwuioenajks # optional, better to use as secret
+      task_definition_tags: true # optional, set to true to propagate tags from the existing task definition to the new task definition revision
 ```
 
 Alternatively, the `image_tag` parameter can be used to deploy a specific container image version, instead of latest

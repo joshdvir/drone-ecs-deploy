@@ -27,6 +27,11 @@ if [ -z ${PLUGIN_MAX} ]; then
   PLUGIN_MAX="200"
 fi
 
+COPY_TAGS_FLAG=""
+if [ "${PLUGIN_TASK_DEFINITION_TAGS}" = "true" ]; then
+  COPY_TAGS_FLAG="--copy-task-definition-tags"
+fi
+
 if [ -z ${PLUGIN_MIN} ]; then
   PLUGIN_MIN="100"
 fi
@@ -41,7 +46,7 @@ fi
 
 if [ ! -z ${PLUGIN_IMAGE_TAG} ]; then
   # ecs-deploy base container puts the script in the fs root :(
-  /ecs-deploy --region ${PLUGIN_AWS_REGION} --cluster ${PLUGIN_CLUSTER} --tag-only ${PLUGIN_IMAGE_TAG} --image ignore --service-name ${PLUGIN_SERVICE} --timeout ${PLUGIN_TIMEOUT} --min ${PLUGIN_MIN} --max ${PLUGIN_MAX}
+  /ecs-deploy --region ${PLUGIN_AWS_REGION} --cluster ${PLUGIN_CLUSTER} --tag-only ${PLUGIN_IMAGE_TAG} --image ignore --service-name ${PLUGIN_SERVICE} --timeout ${PLUGIN_TIMEOUT} --min ${PLUGIN_MIN} --max ${PLUGIN_MAX} ${COPY_TAGS_FLAG}
 else
-  /ecs-deploy --region ${PLUGIN_AWS_REGION} --cluster ${PLUGIN_CLUSTER} --image ${PLUGIN_IMAGE_NAME} --service-name ${PLUGIN_SERVICE} --timeout ${PLUGIN_TIMEOUT} --min ${PLUGIN_MIN} --max ${PLUGIN_MAX}
+  /ecs-deploy --region ${PLUGIN_AWS_REGION} --cluster ${PLUGIN_CLUSTER} --image ${PLUGIN_IMAGE_NAME} --service-name ${PLUGIN_SERVICE} --timeout ${PLUGIN_TIMEOUT} --min ${PLUGIN_MIN} --max ${PLUGIN_MAX} ${COPY_TAGS_FLAG}
 fi
